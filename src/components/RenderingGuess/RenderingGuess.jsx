@@ -1,8 +1,9 @@
 import React from "react";
 import { range } from "../../utils";
 import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
+import { checkGuess } from "../../game-helpers";
 
-function RenderingGuess({guesses}) {
+function RenderingGuess({guesses, answer}) {
   function blankRows() {
     return range(NUM_OF_GUESSES_ALLOWED - guesses.length).map((_) => (
       <p 
@@ -16,21 +17,36 @@ function RenderingGuess({guesses}) {
 
   return (
     <div className="guess-results">
-      {guesses.map(guess => (
-        <p 
-          className="guess"
-          key={Math.random()}
-        >
-          {guess.split('').map(cell => (
-            <span 
-              className="cell"
+      {
+        guesses.map(guess => {
+          const letters = checkGuess(guess, answer)
+          
+          return (
+            <p 
+              className="guess"
               key={Math.random()}
             >
-              {cell}
-            </span>
-          ))}
-        </p>
-      ))}
+              {
+                letters.map(({letter, status}) => {
+                  const classes = `cell ${status}`
+                  
+                  return (
+                    <span 
+                      className={classes}
+                      key={Math.random()}
+                      correct = {status === 'correct' ? '' : null}
+                      incorrect = {status === 'incorrect' ? '' : null}
+                      misplaced = {status === 'misplaced' ? '' : null}
+                    >
+                      {letter}
+                    </span>
+                  )
+                })
+              }
+            </p>
+          )
+        })
+      }
 
       {blankRows()}
     </div>
