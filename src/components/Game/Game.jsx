@@ -18,7 +18,7 @@ function Game() {
   function checkIfCorrect(guess) {
     if (guess === answer) {
       setGameStatus("win")
-    } else if (guesses.length >= NUM_OF_GUESSES_ALLOWED) {
+    } else if (guesses.length >= NUM_OF_GUESSES_ALLOWED - 1) {
       setGameStatus("lost")
     }
   }
@@ -28,9 +28,10 @@ function Game() {
       guesses={guesses}
       answer={answer}
     />
-    <FinalMessage 
-      gameStatus={gameStatus}
-    />
+
+    {gameStatus === "win" && <FinalMessage status="win" numOfGuesses={guesses.length}/>}
+    {gameStatus === "lost" && <FinalMessage status="lost" answer={answer}/>}
+
     <GuessInput 
       guesses={guesses}
       setGuesses={setGuesses}
