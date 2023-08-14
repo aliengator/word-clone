@@ -1,26 +1,27 @@
 import React from "react";
 
+function FinalMessage({status, answer, numOfGuesses}) {
+  let message = ''
+  const classes = `banner ${status === "running" ? "" : status === "win" ? "happy" : "sad"}`
 
-function FinalMessage({gameStatus}) {
-    const happyMessage =  `
-      <div class="happy banner">
-        <p>
-          <strong>Congratulations!</strong> Got it in
-          <strong>3 guesses</strong>.
-        </p>
-      </div>
+  if (status === "win") {
+    message = `
+        <strong>Congratulations!</strong> Got it in <strong>${numOfGuesses} guesses</strong>.
     `
-    const sadMessage = `
-      <div class="sad banner">
-        <p>Sorry, the correct answer is <strong>LEARN</strong>.</p>
-      </div>
-    `
-    const [message, setMessage] = React.useState('')
+  } else if (status === "lost") {
+    message = `<p>Sorry, the correct answer is <strong>${answer}</strong>.</p>`
+  }
+
+  const markup = { __html: message };
   
-    if (gameStatus === "win") return `<p>${happyMessage}</p>`
-    if (gameStatus === "lost") return `<p>${sadMessage}</p>`
-    
-    return <p/>
+  return (
+    <div 
+      className={classes}
+    >
+      <p dangerouslySetInnerHTML={markup} />
+      <button onClick={() => window.location.reload()}><strong>Play again!</strong></button>
+    </div>
+  )
 }
 
 export default FinalMessage;
