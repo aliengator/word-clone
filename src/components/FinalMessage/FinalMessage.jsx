@@ -6,7 +6,7 @@ function FinalMessage({status, answer, numOfGuesses}) {
 
   if (status === "win") {
     message = `
-        <strong>Congratulations!</strong> Got it in <strong>${numOfGuesses} guesses</strong>.
+        <strong>Congratulations!</strong> Got it in <strong>${numOfGuesses === 1 ? "one guess" : `${numOfGuesses} guesses`}</strong>.
     `
   } else if (status === "lost") {
     message = `<p>Sorry, the correct answer is <strong>${answer}</strong>.</p>`
